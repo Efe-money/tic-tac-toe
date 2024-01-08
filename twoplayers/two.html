@@ -51,6 +51,11 @@
                 <span id="rightArrow" class="arrow"></span>
                 <span id="leftArrow" class="arrow"></span>
             </button>
+            <!-- Add a button to refresh the game board -->
+<button onclick="refreshGameBoard()">
+    Refresh Board
+</button>
+
         </div>
 
         <table class="score-table ">
@@ -108,11 +113,15 @@
             if (!draw) {
                 if (currentPlayer === 'X') {
                     playerScore++;
+                    localStorage.setItem('playerScore', playerScore);
                     playerScoreDisplay.textContent = playerScore;
                 } else {
                     opponentScore++;
+                    localStorage.setItem('opponentScore', opponentScore);
                     opponentScoreDisplay.textContent = opponentScore;
                 }
+
+             
             }
             gameOver = true;
         }
@@ -122,7 +131,7 @@
             const cellIndex = parseInt(cell.id);
     
             if (cell.textContent === '' && !gameOver) {
-                cell.textContent = currentPlayer;
+                cell.textContent = currentPlayer;   
     
                 if (checkWin(currentPlayer)) {
                     endGame();
@@ -139,6 +148,12 @@
             currentPlayer = 'X';
             gameOver = false;
         }
+
+        function refreshGameBoard() {
+            cells.forEach(cell => cell.textContent = '');
+            currentPlayer = 'X';
+            gameOver = false;
+}
     
         cells.forEach(cell => cell.addEventListener('click', handleClick));
         replayBtn.addEventListener('click', restartGame);
